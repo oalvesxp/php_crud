@@ -6,14 +6,14 @@
     $connection = ConnectionCreator::Connection();
         
     $qry1 = "
-        SELECT * FROM PR1010 WHERE PR1_TIPO = 'Café';
+        SELECT * FROM PR1010 WHERE PR1_TIPO = 'Café' ORDER BY PR1_PREC ASC;
     ";
     
     $stmt = $connection->query($qry1);
     $produtosCafe = $stmt->fetchAll();
 
     $qry2 = "
-        SELECT * FROM PR1010 WHERE PR1_TIPO = 'Almoço';
+        SELECT * FROM PR1010 WHERE PR1_TIPO = 'Almoço' ORDER BY PR1_PREC ASC;
     ";
     
     $stmt = $connection->query($qry2);
