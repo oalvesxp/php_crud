@@ -8,7 +8,7 @@ $connection = ConnectionCreator::Connection();
 $connection->beginTransaction();
 
 try{
-    $connection->exec('
+    $connection->exec("
         CREATE TABLE IF NOT EXISTS 
             PR1010 (
                 PR1_ID INTEGER PRIMARY KEY,
@@ -17,8 +17,8 @@ try{
                 PR1_DESC VARCHAR(90) NOT NULL,
                 PR1_IMG VARCHAR(80) NOT NULL,
                 PR1_PREC DECIMAL(5,2) NOT NULL
-            );   
-    ');
+            );
+    ");
 
     $connection->commit();
 } catch (\PDOException $e) {
