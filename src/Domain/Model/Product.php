@@ -25,11 +25,11 @@ class Product
 
     public function getImagem(): string
     {
-        return $this->imagem;
+        return "img/{$this->imagem}";
     }
 
-    public function getPreco(): string
+    public function getPrecoFormatado(): string
     {
-        return $this->preco;
+        return "R$ " . number_format($this->preco, 2);
     }
 }
