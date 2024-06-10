@@ -1,23 +1,48 @@
 <?php
 
-    use Serenatto\Crud\Infraestructure\Persistence\ConnectionCreator;
-    require_once __DIR__ . '/../vendor/autoload.php';
+use Serenatto\Crud\Domain\Model\Product;
+use Serenatto\Crud\Infraestructure\Persistence\ConnectionCreator;
 
-    $connection = ConnectionCreator::Connection();
-        
-    $qry1 = "
-        SELECT * FROM PR1010 WHERE PR1_TIPO = 'Café' ORDER BY PR1_PREC ASC;
-    ";
-    
-    $stmt = $connection->query($qry1);
-    $produtosCafe = $stmt->fetchAll();
+require_once __DIR__ . '/../vendor/autoload.php';
 
-    $qry2 = "
-        SELECT * FROM PR1010 WHERE PR1_TIPO = 'Almoço' ORDER BY PR1_PREC ASC;
-    ";
+$connection = ConnectionCreator::Connection();
     
-    $stmt = $connection->query($qry2);
-    $produtosAlmoco = $stmt->fetchAll();
+$qry1 = "
+    SELECT * FROM PR1010 WHERE PR1_TIPO = 'Café' ORDER BY PR1_PREC ASC;
+";
+
+$stmt = $connection->query($qry1);
+$produtosCafe = $stmt->fetchAll();
+
+$dadosCafe = array_map(function($cafe) {
+    return new Product(
+        $cafe['PR1_ID'],
+        $cafe['PR1_TIPO'],
+        $cafe['PR1_NOME'],
+        $cafe['PR1_DESC'],
+        $cafe['PR1_IMG'],
+        $cafe['PR1_PREC']
+    );
+}, $produtosCafe);
+
+
+$qry2 = "
+    SELECT * FROM PR1010 WHERE PR1_TIPO = 'Almoço' ORDER BY PR1_PREC ASC;
+";
+
+$stmt = $connection->query($qry2);
+$produtosAlmoco = $stmt->fetchAll();
+
+$dadosAlmoco = array_map(function($almoco) {
+    return new Product(
+        $almoco['PR1_ID'],
+        $almoco['PR1_TIPO'],
+        $almoco['PR1_NOME'],
+        $almoco['PR1_DESC'],
+        $almoco['PR1_IMG'],
+        $almoco['PR1_PREC']
+    );
+}, $produtosAlmoco);
 
 ?>
 
@@ -51,14 +76,14 @@
                 <img class= "ornaments" src="img/ornaments-coffee.png" alt="ornaments">
             </div>
             <div class="container-cafe-manha-produtos">
-                <?php foreach ($produtosCafe as $cafe): ?>
+                <?php foreach ($dadosCafe as $cafe): ?>
                     <div class="container-produto">
                         <div class="container-foto">
-                            <img src="<?= "img/" . $cafe['PR1_IMG'];?>">
+                            <img src="<?= "img/" . $cafe->getImagem();?>">
                         </div>
-                        <p><?= $cafe['PR1_NOME'];?></p>
-                        <p><?= $cafe['PR1_DESC'];?></p>
-                        <p><?= "R$ " . $cafe['PR1_PREC'];?></p>
+                        <p><?= $cafe->getNome();?></p>
+                        <p><?= $cafe->getDescricao();?></p>
+                        <p><?= "R$ " . number_format($cafe->getPreco(), 2);?></p>
                     </div>
                 <?php endforeach; ?>
             </div>
@@ -69,14 +94,14 @@
                 <img class= "ornaments" src="img/ornaments-coffee.png" alt="ornaments">
             </div>
             <div class="container-almoco-produtos">
-                <?php foreach ($produtosAlmoco as $almoco): ?>
+                <?php foreach ($dadosAlmoco as $almoco): ?>
                     <div class="container-produto">
                         <div class="container-foto">
-                            <img src="<?= "img/" . $almoco['PR1_IMG'];?>">
+                            <img src="<?= "img/" . $almoco->getImagem();?>">
                         </div>
-                        <p><?= $almoco['PR1_NOME'];?></p>
-                        <p><?= $almoco['PR1_DESC'];?></p>
-                        <p><?= "R$ " . $almoco['PR1_PREC'];?></p>
+                        <p><?= $almoco->getNome();?></p>
+                        <p><?= $almoco->getDescricao();?></p>
+                        <p><?= "R$ " . number_format($almoco->getPreco(), 2);?></p>
                     </div>
                 <?php endforeach; ?>
             </div>
