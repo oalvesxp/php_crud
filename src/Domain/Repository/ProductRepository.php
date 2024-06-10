@@ -4,6 +4,6 @@ namespace Serenatto\Crud\Domain\Repository;
 
 interface ProductRepository
 {
-    public function cafe(): array;
-    public function almoco(): array;
+    public function itensCafe(): array;
+    public function itensAlmoco(): array;
 }

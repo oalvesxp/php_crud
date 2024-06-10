@@ -1,48 +1,15 @@
 <?php
 
-use Serenatto\Crud\Domain\Model\Product;
 use Serenatto\Crud\Infraestructure\Persistence\ConnectionCreator;
+use Serenatto\Crud\Infraestructure\Repository\CrudProductRepository;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $connection = ConnectionCreator::Connection();
-    
-$qry1 = "
-    SELECT * FROM PR1010 WHERE PR1_TIPO = 'Café' ORDER BY PR1_PREC ASC;
-";
+$repository = New CrudProductRepository($connection);
 
-$stmt = $connection->query($qry1);
-$produtosCafe = $stmt->fetchAll();
-
-$dadosCafe = array_map(function($cafe) {
-    return new Product(
-        $cafe['PR1_ID'],
-        $cafe['PR1_TIPO'],
-        $cafe['PR1_NOME'],
-        $cafe['PR1_DESC'],
-        $cafe['PR1_IMG'],
-        $cafe['PR1_PREC']
-    );
-}, $produtosCafe);
-
-
-$qry2 = "
-    SELECT * FROM PR1010 WHERE PR1_TIPO = 'Almoço' ORDER BY PR1_PREC ASC;
-";
-
-$stmt = $connection->query($qry2);
-$produtosAlmoco = $stmt->fetchAll();
-
-$dadosAlmoco = array_map(function($almoco) {
-    return new Product(
-        $almoco['PR1_ID'],
-        $almoco['PR1_TIPO'],
-        $almoco['PR1_NOME'],
-        $almoco['PR1_DESC'],
-        $almoco['PR1_IMG'],
-        $almoco['PR1_PREC']
-    );
-}, $produtosAlmoco);
+$dadosCafe = $repository->itensCafe();
+$dadosAlmoco = $repository->itensAlmoco();
 
 ?>
 
