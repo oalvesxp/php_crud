@@ -1,0 +1,18 @@
+{
+    "name": "oalves/php_crud",
+    "description": "Projeto de CRUD em php",
+    "type": "project",
+    "require": {
+        "ext-pdo": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Serenatto\\Crud\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Osvaldo A. Neto"
+        }
+    ]
+}
