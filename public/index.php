@@ -1,57 +1,24 @@
 <?php
-    $produtosCafe = [
-        [
-            "nome" => "Café Cremoso",
-            "descricao" => "Café cremoso irresistivelmente suave e que envolve seu paladar", 
-            "preco" => "5.00",
-            "imagem" => "img/cafe-cremoso.jpg"
-        ],
-        [
-            "nome" => "Café com Leite", 
-            "descricao" => "A harmonia do café e do leite, uma experiência reconfortante", 
-            "preco" => "2.00",
-            "imagem" => "img/cafe-com-leite.jpg"
-        ],
-        [
-            "nome" => "Cappuccino",
-            "descricao" => "Café suave, leite cremoso e uma pitada de sabor adocicado",
-            "preco" => "7.00",
-            "imagem"=> "img/cappuccino.jpg"
-        ],
-        [
-            "nome" => "Café Gelado",
-            "descricao" => "Café gelado refrescante, adoçado e com notas sutis de baunilha ou caramelo.",
-            "preco" => "3.00",
-            "imagem"=> "img/cafe-gelado.jpg"
-        ]
-    ];
 
-    $produtosAlmoco = [
-        [
-            "nome" => "Bife",
-            "descricao" => "Bife, arroz com feijão e uma deliciosa batata frita",
-            "preco" => "27.90",
-            "imagem" => "img/bife.jpg"
-        ],
-        [
-            "nome" => "Filé de peixe",
-            "descricao" => "Filé de peixe salmão assado, arroz, feijão verde e tomate.",
-            "preco" => "24.99",
-            "imagem" => "img/prato-peixe.jpg"
-        ],
-        [
-            "nome" => "Frango",
-            "descricao" => "Saboroso frango à milanesa com batatas fritas, salada de repolho e molho picante",
-            "preco" => "23.00",
-            "imagem" => "img/prato-frango.jpg"
-        ],
-        [
-            "nome" => "Fettuccine",
-            "descricao" => "Prato italiano autêntico da massa do fettuccine com peito de frango grelhado",
-            "preco" => "22.50",
-            "imagem" => "img/fettuccine.jpg"
-        ]
-    ];
+    use Serenatto\Crud\Infraestructure\Persistence\ConnectionCreator;
+    require_once __DIR__ . '/../vendor/autoload.php';
+
+    $connection = ConnectionCreator::Connection();
+        
+    $qry1 = "
+        SELECT * FROM PR1010 WHERE PR1_TIPO = 'Café';
+    ";
+    
+    $stmt = $connection->query($qry1);
+    $produtosCafe = $stmt->fetchAll();
+
+    $qry2 = "
+        SELECT * FROM PR1010 WHERE PR1_TIPO = 'Almoço';
+    ";
+    
+    $stmt = $connection->query($qry2);
+    $produtosAlmoco = $stmt->fetchAll();
+
 ?>
 
 <!doctype html>
@@ -87,11 +54,11 @@
                 <?php foreach ($produtosCafe as $cafe): ?>
                     <div class="container-produto">
                         <div class="container-foto">
-                            <img src="<?= $cafe['imagem'];?>">
+                            <img src="<?= "img/" . $cafe['PR1_IMG'];?>">
                         </div>
-                        <p><?= $cafe['nome'];?></p>
-                        <p><?= $cafe['descricao'];?></p>
-                        <p><?= "R$ " . $cafe['preco'];?></p>
+                        <p><?= $cafe['PR1_NOME'];?></p>
+                        <p><?= $cafe['PR1_DESC'];?></p>
+                        <p><?= "R$ " . $cafe['PR1_PREC'];?></p>
                     </div>
                 <?php endforeach; ?>
             </div>
@@ -105,11 +72,11 @@
                 <?php foreach ($produtosAlmoco as $almoco): ?>
                     <div class="container-produto">
                         <div class="container-foto">
-                            <img src="<?= $almoco['imagem'];?>">
+                            <img src="<?= "img/" . $almoco['PR1_IMG'];?>">
                         </div>
-                        <p><?= $almoco['nome'];?></p>
-                        <p><?= $almoco['descricao'];?></p>
-                        <p><?= "R$ " . $almoco['preco'];?></p>
+                        <p><?= $almoco['PR1_NOME'];?></p>
+                        <p><?= $almoco['PR1_DESC'];?></p>
+                        <p><?= "R$ " . $almoco['PR1_PREC'];?></p>
                     </div>
                 <?php endforeach; ?>
             </div>
