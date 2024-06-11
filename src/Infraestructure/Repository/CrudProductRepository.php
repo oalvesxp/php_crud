@@ -83,4 +83,16 @@ class CrudProductRepository implements ProductRepository
         
         return $itens;
     }
+
+    public function deletar(int $id): void
+    {
+        $qry = "
+            DELETE FROM PR1010 WHERE PR1_ID = ?
+        ";
+
+        $stmt = $this->connection->prepare($qry);
+        $stmt->bindValue(1 ,$id);
+        $stmt->execute();
+
+    }
 }
