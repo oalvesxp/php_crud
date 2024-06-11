@@ -46,7 +46,7 @@ $dadosAlmoco = $repository->itensAlmoco();
                 <?php foreach ($dadosCafe as $cafe): ?>
                     <div class="container-produto">
                         <div class="container-foto">
-                            <img src="<?= $cafe->getImagem();?>">
+                            <img src="<?= $cafe->getImagemFormatada();?>">
                         </div>
                         <p><?= $cafe->getNome();?></p>
                         <p><?= $cafe->getDescricao();?></p>
@@ -64,7 +64,7 @@ $dadosAlmoco = $repository->itensAlmoco();
                 <?php foreach ($dadosAlmoco as $almoco): ?>
                     <div class="container-produto">
                         <div class="container-foto">
-                            <img src="<?= $almoco->getImagem();?>">
+                            <img src="<?= $almoco->getImagemFormatada();?>">
                         </div>
                         <p><?= $almoco->getNome();?></p>
                         <p><?= $almoco->getDescricao();?></p>

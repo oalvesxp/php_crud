@@ -30,8 +30,8 @@ class CrudProductRepository implements ProductRepository
                 $cafe['PR1_TIPO'],
                 $cafe['PR1_NOME'],
                 $cafe['PR1_DESC'],
-                $cafe['PR1_IMG'],
-                $cafe['PR1_PREC']
+                $cafe['PR1_PREC'],
+                $cafe['PR1_IMG']
             );
         }, $produtos);
 
@@ -53,8 +53,8 @@ class CrudProductRepository implements ProductRepository
                 $almoco['PR1_TIPO'],
                 $almoco['PR1_NOME'],
                 $almoco['PR1_DESC'],
-                $almoco['PR1_IMG'],
-                $almoco['PR1_PREC']
+                $almoco['PR1_PREC'],
+                $almoco['PR1_IMG']
             );
         }
         
@@ -76,8 +76,8 @@ class CrudProductRepository implements ProductRepository
                 $item['PR1_TIPO'],
                 $item['PR1_NOME'],
                 $item['PR1_DESC'],
-                $item['PR1_IMG'],
-                $item['PR1_PREC']
+                $item['PR1_PREC'],
+                $item['PR1_IMG']
             );
         }
         
@@ -93,6 +93,28 @@ class CrudProductRepository implements ProductRepository
         $stmt = $this->connection->prepare($qry);
         $stmt->bindValue(1 ,$id);
         $stmt->execute();
+    }
 
+    public function salvar(Product $produto): void
+    {
+        $qry = "
+            INSERT INTO PR1010 
+            (
+                PR1_TIPO
+                , PR1_NOME
+                , PR1_DESC                
+                , PR1_PREC
+                , PR1_IMG
+            ) VALUES 
+                (:tipo, :nome , :descricao, :preco, :img)
+        ";
+
+        $stmt = $this->connection->prepare($qry);
+        $stmt->bindValue('tipo',  $produto->getTipo());
+        $stmt->bindValue('nome',  $produto->getNome());
+        $stmt->bindValue('descricao',  $produto->getDescricao());
+        $stmt->bindValue('preco',  $produto->getPreco());
+        $stmt->bindValue('img',  $produto->getImagem());
+        $stmt->execute();
     }
 }
