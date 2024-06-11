@@ -13,6 +13,11 @@ class Product
         private float $preco
     ) {}
 
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
     public function getNome(): string
     {
         return $this->nome;
@@ -21,6 +26,11 @@ class Product
     public function getDescricao(): string
     {
         return $this->descricao;
+    }
+
+    public function getTipo(): string
+    {
+        return $this->tipo;
     }
 
     public function getImagem(): string

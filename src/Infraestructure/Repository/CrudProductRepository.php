@@ -60,4 +60,39 @@ class CrudProductRepository implements ProductRepository
         
         return $dadosAlmoco;
     }
+
+    public function allProducts(): array
+    {
+        $qry = "
+            SELECT * FROM PR1010 ORDER BY PR1_PREC ASC;
+        ";
+
+        $stmt = $this->connection->query($qry);
+        $produtos = $stmt->fetchAll();
+
+        foreach ($produtos as $item) {
+            $itens[] = new Product(
+                $item['PR1_ID'],
+                $item['PR1_TIPO'],
+                $item['PR1_NOME'],
+                $item['PR1_DESC'],
+                $item['PR1_IMG'],
+                $item['PR1_PREC']
+            );
+        }
+        
+        return $itens;
+    }
+
+    public function deletar(int $id): void
+    {
+        $qry = "
+            DELETE FROM PR1010 WHERE PR1_ID = ?
+        ";
+
+        $stmt = $this->connection->prepare($qry);
+        $stmt->bindValue(1 ,$id);
+        $stmt->execute();
+
+    }
 }
