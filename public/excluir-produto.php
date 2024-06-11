@@ -8,6 +8,6 @@ require_once __DIR__ . '/../vendor/autoload.php';
 $connection = ConnectionCreator::Connection();
 $repository = New CrudProductRepository($connection);
 
-$repository->deletar($_GET['id']);
+$repository->deletar($_POST['id']);
 
 header('Location: /admin.php');

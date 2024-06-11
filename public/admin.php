@@ -58,7 +58,7 @@ $produtos = $repository->allProducts();
           <td><?= $item->getPrecoFormatado(); ?></td>
           <td><a class="botao-editar" href="editar-produto.html">Editar</a></td>
           <td>
-            <form action="excluir-produto.php">
+            <form action="excluir-produto.php" method="POST">
               <input type="hidden" name="id" value="<?= $item->getId(); ?>">
               <input type="submit" class="botao-excluir" value="Excluir">
             </form>
