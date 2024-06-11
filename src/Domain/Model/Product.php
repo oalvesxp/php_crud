@@ -38,6 +38,11 @@ class Product
         return $this->imagem;
     }
 
+    public function setImagem(string $imagem): void
+    {
+        $this->imagem = $imagem;
+    }
+
     public function getImagemFormatada(): string
     {
         return "img/{$this->imagem}";
