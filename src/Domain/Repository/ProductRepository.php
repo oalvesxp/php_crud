@@ -6,4 +6,5 @@ interface ProductRepository
 {
     public function itensCafe(): array;
     public function itensAlmoco(): array;
+    public function allProducts(): array;
 }

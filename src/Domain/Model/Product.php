@@ -23,6 +23,11 @@ class Product
         return $this->descricao;
     }
 
+    public function getTipo(): string
+    {
+        return $this->tipo;
+    }
+
     public function getImagem(): string
     {
         return "img/{$this->imagem}";
