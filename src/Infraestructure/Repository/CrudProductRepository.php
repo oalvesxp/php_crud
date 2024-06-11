@@ -148,4 +148,28 @@ class CrudProductRepository implements ProductRepository
         
         return $this->formarObjeto($dados);
     }
+
+    public function alterar(Product $produto): void
+    {
+        $qry = "
+            UPDATE PR1010 
+            SET 
+                PR1_TIPO = :tipo
+                , PR1_NOME = :nome
+                , PR1_DESC = :descricao             
+                , PR1_PREC = :preco
+            WHERE
+                PR1_ID = :id
+        ";
+
+        $stmt = $this->connection->prepare($qry);
+
+        $stmt->bindValue('id' , $produto->getId());
+        $stmt->bindValue('tipo' , $produto->getTipo());
+        $stmt->bindValue('nome' , $produto->getNome());
+        $stmt->bindValue('descricao' , $produto->getDescricao());
+        $stmt->bindValue('preco' , $produto->getPreco());
+        
+        $stmt->execute();
+    }
 }
