@@ -1,3 +1,17 @@
+<?php
+
+use Serenatto\Crud\Infraestructure\Persistence\ConnectionCreator;
+use Serenatto\Crud\Infraestructure\Repository\CrudProductRepository;
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+$connection = ConnectionCreator::Connection();
+$repository = New CrudProductRepository($connection);
+
+$produto = $repository->buscar($_GET['id']);
+
+?>
+
 <!doctype html>
 <html lang="pt-br">
 <head>
@@ -27,24 +41,24 @@
     <form action="#">
 
       <label for="nome">Nome</label>
-      <input type="text" id="nome" name="nome" placeholder="Digite o nome do produto" required>
+      <input type="text" id="nome" name="nome" placeholder="Digite o nome do produto" value="<?= $produto->getNome(); ?>" required>
 
       <div class="container-radio">
         <div>
             <label for="cafe">Café</label>
-            <input type="radio" id="cafe" name="tipo" value="Café" checked>
+            <input type="radio" id="cafe" name="tipo" value="Café" <?= $produto->getTipo() == 'Café'? "checked": "" ?>>
         </div>
         <div>
             <label for="almoco">Almoço</label>
-            <input type="radio" id="almoco" name="tipo" value="Almoço">
+            <input type="radio" id="almoco" name="tipo" value="Almoço" <?= $produto->getTipo() == 'Almoço'? "checked": "" ?>>
         </div>
     </div>
 
       <label for="descricao">Descrição</label>
-      <input type="text" id="descricao" name="descricao" placeholder="Digite uma descrição" required>
+      <input type="text" id="descricao" name="descricao" placeholder="Digite uma descrição" value="<?= $produto->getDescricao(); ?>" required>
 
       <label for="preco">Preço</label>
-      <input type="text" id="preco" name="preco" placeholder="Digite uma descrição" required>
+      <input type="text" id="preco" name="preco" placeholder="Digite uma descrição" value="<?= $produto->getPreco(); ?>" required>
 
       <label for="imagem">Envie uma imagem do produto</label>
       <input type="file" name="imagem" accept="image/*" id="imagem" placeholder="Envie uma imagem">
