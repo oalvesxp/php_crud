@@ -56,7 +56,7 @@ $produtos = $repository->allProducts();
           <td><?= $item->getTipo(); ?></td>
           <td><?= $item->getDescricao(); ?></td>
           <td><?= $item->getPrecoFormatado(); ?></td>
-          <td><a class="botao-editar" href="editar-produto.html">Editar</a></td>
+          <td><a class="botao-editar" href="editar-produto.php?id=<?= $item->getId(); ?>">Editar</a></td>
           <td>
             <form action="excluir-produto.php" method="POST">
               <input type="hidden" name="id" value="<?= $item->getId(); ?>">
@@ -68,7 +68,7 @@ $produtos = $repository->allProducts();
       </tbody>
     </table>
     <a class="botao-cadastrar" href="cadastrar-produto.php">Cadastrar produto</a>
-    <form action="#" method="post">
+    <form action="gerador-pdf.php" method="post">
       <input type="submit" class="botao-cadastrar" value="Baixar Relatório"/>
     </form>
   </section>
