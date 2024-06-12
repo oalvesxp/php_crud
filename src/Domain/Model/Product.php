@@ -5,13 +5,18 @@ namespace Serenatto\Crud\Domain\Model;
 class Product
 {
     public function __construct(
-        private int $id,
+        private ?int $id,
         private string $tipo,
         private string $nome,
         private string $descricao,
-        private string $imagem,
-        private float $preco
+        private float $preco,
+        private string $imagem = "logo-serenatto.png"
     ) {}
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
 
     public function getNome(): string
     {
@@ -23,9 +28,29 @@ class Product
         return $this->descricao;
     }
 
+    public function getTipo(): string
+    {
+        return $this->tipo;
+    }
+
     public function getImagem(): string
     {
+        return $this->imagem;
+    }
+
+    public function setImagem(string $imagem): void
+    {
+        $this->imagem = $imagem;
+    }
+
+    public function getImagemFormatada(): string
+    {
         return "img/{$this->imagem}";
+    }
+
+    public function getPreco(): string
+    {
+        return $this->preco;
     }
 
     public function getPrecoFormatado(): string

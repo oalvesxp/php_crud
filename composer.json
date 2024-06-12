@@ -3,7 +3,8 @@
     "description": "Projeto de CRUD em php",
     "type": "project",
     "require": {
-        "ext-pdo": "*"
+        "ext-pdo": "*",
+        "dompdf/dompdf": "^3.0"
     },
     "autoload": {
         "psr-4": {

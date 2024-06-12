@@ -1,3 +1,39 @@
+<?php
+
+use Serenatto\Crud\Domain\Model\Product;
+use Serenatto\Crud\Infraestructure\Persistence\ConnectionCreator;
+use Serenatto\Crud\Infraestructure\Repository\CrudProductRepository;
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+$connection = ConnectionCreator::Connection();
+$repository = New CrudProductRepository($connection);
+
+if (isset($_POST['editar'])) {
+  $produto = new Product(
+    $_POST['id'],
+    $_POST['tipo'],
+    $_POST['nome'],
+    $_POST['descricao'],
+    $_POST['preco'],
+  );
+
+  if (isset($_FILES['imagem'])) {
+
+    $produto->setImagem(uniqid() . $_FILES['imagem']['name']);
+    move_uploaded_file($_FILES['imagem']['tmp_name'], $produto->getImagemFormatada());
+
+  }
+  
+  $repository->alterar($produto);
+  header("Location: /admin.php");
+
+} else {
+  $produto = $repository->buscar($_GET['id']);
+}
+
+?>
+
 <!doctype html>
 <html lang="pt-br">
 <head>
@@ -24,31 +60,33 @@
     <img class= "ornaments" src="img/ornaments-coffee.png" alt="ornaments">
   </section>
   <section class="container-form">
-    <form action="#">
+    <form action="#" method="POST" enctype="multipart/form-data">
 
       <label for="nome">Nome</label>
-      <input type="text" id="nome" name="nome" placeholder="Digite o nome do produto" required>
+      <input type="text" id="nome" name="nome" placeholder="Digite o nome do produto" value="<?= $produto->getNome(); ?>" required>
 
       <div class="container-radio">
         <div>
             <label for="cafe">Café</label>
-            <input type="radio" id="cafe" name="tipo" value="Café" checked>
+            <input type="radio" id="cafe" name="tipo" value="Café" <?= $produto->getTipo() == 'Café'? "checked": "" ?>>
         </div>
         <div>
             <label for="almoco">Almoço</label>
-            <input type="radio" id="almoco" name="tipo" value="Almoço">
+            <input type="radio" id="almoco" name="tipo" value="Almoço" <?= $produto->getTipo() == 'Almoço'? "checked": "" ?>>
         </div>
     </div>
 
       <label for="descricao">Descrição</label>
-      <input type="text" id="descricao" name="descricao" placeholder="Digite uma descrição" required>
+      <input type="text" id="descricao" name="descricao" placeholder="Digite uma descrição" value="<?= $produto->getDescricao(); ?>" required>
 
       <label for="preco">Preço</label>
-      <input type="text" id="preco" name="preco" placeholder="Digite uma descrição" required>
+      <input type="text" id="preco" name="preco" placeholder="Digite uma descrição" value="<?= number_format($produto->getPreco(), 2); ?>" required>
 
       <label for="imagem">Envie uma imagem do produto</label>
       <input type="file" name="imagem" accept="image/*" id="imagem" placeholder="Envie uma imagem">
 
+
+      <input type="hidden" name="id" value="<?= $produto->getId(); ?>"/>
       <input type="submit" name="editar" class="botao-cadastrar"  value="Editar produto"/>
     </form>
 

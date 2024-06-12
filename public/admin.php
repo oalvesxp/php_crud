@@ -1,3 +1,17 @@
+<?php
+
+use Serenatto\Crud\Infraestructure\Persistence\ConnectionCreator;
+use Serenatto\Crud\Infraestructure\Repository\CrudProductRepository;
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+$connection = ConnectionCreator::Connection();
+$repository = New CrudProductRepository($connection);
+
+$produtos = $repository->allProducts();
+
+?>
+
 <!doctype html>
 <html lang="pt-br">
 <head>
@@ -36,49 +50,27 @@
         </tr>
       </thead>
       <tbody>
-      <tr>
-        <td>Bife</td>
-        <td>Almoço</td>
-        <td>Delicioso prato</td>
-        <td>R$ 25.00</td>
-        <td><a class="botao-editar" href="editar-produto.html">Editar</a></td>
-        <td>
-          <form>
-            <input type="button" class="botao-excluir" value="Excluir">
-          </form>
-        </td>
-        
-      </tr>
-      <tr>
-        <td>Frango</td>
-        <td>Almoço</td>
-        <td>Delicioso prato</td>
-        <td>R$ 25.00</td>
-        <td><a class="botao-editar" href="editar-produto.html">Editar</a></td>
-        <td>
-          <form>
-            <input type="button" class="botao-excluir" value="Excluir">
-          </form>
-        </td>
-      </tr>
-      <tr>
-        <td>Café Gelado</td>
-        <td>Café</td>
-        <td>Delicioso prato</td>
-        <td>R$ 25.00</td>
-        <td><a class="botao-editar" href="editar-produto.html">Editar</a></td>
-        <td>
-          <form>
-            <input type="button" class="botao-excluir" value="Excluir">
-          </form>
-        </td>
-      </tr>
+      <?php foreach($produtos as $item):?>
+        <tr>
+          <td><?= $item->getNome(); ?></td>
+          <td><?= $item->getTipo(); ?></td>
+          <td><?= $item->getDescricao(); ?></td>
+          <td><?= $item->getPrecoFormatado(); ?></td>
+          <td><a class="botao-editar" href="editar-produto.php?id=<?= $item->getId(); ?>">Editar</a></td>
+          <td>
+            <form action="excluir-produto.php" method="POST">
+              <input type="hidden" name="id" value="<?= $item->getId(); ?>">
+              <input type="submit" class="botao-excluir" value="Excluir">
+            </form>
+          </td>
+        </tr>
+      <?php endforeach; ?>
       </tbody>
     </table>
-  <a class="botao-cadastrar" href="cadastrar-produto.html">Cadastrar produto</a>
-  <form action="#" method="post">
-    <input type="submit" class="botao-cadastrar" value="Baixar Relatório"/>
-  </form>
+    <a class="botao-cadastrar" href="cadastrar-produto.php">Cadastrar produto</a>
+    <form action="gerador-pdf.php" method="post">
+      <input type="submit" class="botao-cadastrar" value="Baixar Relatório"/>
+    </form>
   </section>
 </main>
 </body>
