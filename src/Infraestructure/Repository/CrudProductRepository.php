@@ -158,6 +158,7 @@ class CrudProductRepository implements ProductRepository
                 , PR1_NOME = :nome
                 , PR1_DESC = :descricao             
                 , PR1_PREC = :preco
+                , PR1_IMG = :img
             WHERE
                 PR1_ID = :id
         ";
@@ -169,6 +170,7 @@ class CrudProductRepository implements ProductRepository
         $stmt->bindValue('nome' , $produto->getNome());
         $stmt->bindValue('descricao' , $produto->getDescricao());
         $stmt->bindValue('preco' , $produto->getPreco());
+        $stmt->bindValue('img' , $produto->getImagem());
         
         $stmt->execute();
     }

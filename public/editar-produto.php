@@ -18,9 +18,16 @@ if (isset($_POST['editar'])) {
     $_POST['preco'],
   );
 
-  $repository->alterar($produto);
+  if (isset($_FILES['imagem'])) {
+
+    $produto->setImagem(uniqid() . $_FILES['imagem']['name']);
+    move_uploaded_file($_FILES['imagem']['tmp_name'], $produto->getImagemFormatada());
+
+  }
   
-  header("Location: admin.php");
+  $repository->alterar($produto);
+  header("Location: /admin.php");
+
 } else {
   $produto = $repository->buscar($_GET['id']);
 }
@@ -53,7 +60,7 @@ if (isset($_POST['editar'])) {
     <img class= "ornaments" src="img/ornaments-coffee.png" alt="ornaments">
   </section>
   <section class="container-form">
-    <form action="#" method="POST">
+    <form action="#" method="POST" enctype="multipart/form-data">
 
       <label for="nome">Nome</label>
       <input type="text" id="nome" name="nome" placeholder="Digite o nome do produto" value="<?= $produto->getNome(); ?>" required>
@@ -77,6 +84,7 @@ if (isset($_POST['editar'])) {
 
       <label for="imagem">Envie uma imagem do produto</label>
       <input type="file" name="imagem" accept="image/*" id="imagem" placeholder="Envie uma imagem">
+
 
       <input type="hidden" name="id" value="<?= $produto->getId(); ?>"/>
       <input type="submit" name="editar" class="botao-cadastrar"  value="Editar produto"/>

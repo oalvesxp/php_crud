@@ -18,7 +18,7 @@ if (isset($_POST['cadastro'])) {
     if (isset($_FILES['imagem'])) {
 
         $produto->setImagem(uniqid() . $_FILES['imagem']['name']);
-        move_uploaded_file($_FILES['imagem']['temp_name'], $produto->getImagemFormatada());
+        move_uploaded_file($_FILES['imagem']['tmp_name'], $produto->getImagemFormatada());
 
     }
 
